@@ -4,19 +4,20 @@ import Vue from 'vue'
 import axios from 'axios'
 import App from './App'
 import router from './router'
-import List from './components/List.vue'
-import Item from './components/Item.vue'
+import NewsItem from './components/NewsItem.vue'
 import VueAxios from 'vue-axios'
 import configuration from './configuration.json'
 
 Vue.use(VueAxios, axios)
 Vue.config.productionTip = false
 
-axios.defaults.headers.common['Authorization'] = 'Bearer ' + configuration.token
-axios.defaults.baseURL = configuration.baseURL
+Vue.prototype.$baseURL = configuration.baseURL
+Vue.prototype.$token = configuration.token
 
-Vue.component('list', List)
-Vue.component('item', Item)
+axios.defaults.headers.common['Authorization'] = 'Bearer ' + Vue.prototype.$token
+axios.defaults.baseURL = Vue.prototype.$baseURL
+
+Vue.component('NewsItem', NewsItem)
 
 /* eslint-disable no-new */
 new Vue({
@@ -29,5 +30,5 @@ new Vue({
   el: '#app',
   router,
   template: '<App/>',
-  components: {App, List}
+  components: {App}
 })

@@ -1,15 +1,16 @@
 <template>
-  <div class="news">
-    <list v-bind:news="news"></list>
-    <h3>testw</h3>
+  <div class="news-wrapper">
+    <h1>test</h1>
+    <news-item v-for="(item, index) in news" v-bind:item="item" v-bind:id="index" v-bind:selected-index="selectedIndex"></news-item>
   </div>
 </template>
 
 <script>
   export default {
-    name: 'news',
+    name: 'list',
     data () {
       return {
+        selectedIndex: 0,
         news: []
       }
     },
@@ -21,30 +22,23 @@
         this.axios.get('/news')
           .then((response) => {
             this.news = response.data.items
+            setInterval(() => {
+              this.selectedIndex = this.news.length <= this.selectedIndex ? 0 : this.selectedIndex += 1
+            }, 4000)
           })
       }
     }
   }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  h1, h2 {
-    font-weight: normal;
-  }
-
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-
-  li {
-    display: inline-block;
-    margin: 0 10px;
-  }
-
-  a {
-    color: #fffaaa;
+  .news-wrapper {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    background: #fdfdfd;
+    color: #fff;
+    text-align: center;
   }
 </style>
-
