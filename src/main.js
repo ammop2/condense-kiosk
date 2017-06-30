@@ -5,6 +5,7 @@ import axios from 'axios'
 import App from './App'
 import router from './router'
 import NewsItem from './components/NewsItem.vue'
+import LoadingIndicator from './components/LoadingIndicator.vue'
 import VueAxios from 'vue-axios'
 import configuration from './configuration.json'
 
@@ -13,11 +14,13 @@ Vue.config.productionTip = false
 
 Vue.prototype.$baseURL = configuration.baseURL
 Vue.prototype.$token = configuration.token
+Vue.prototype.$channels = configuration.channels
 
 axios.defaults.headers.common['Authorization'] = 'Bearer ' + Vue.prototype.$token
 axios.defaults.baseURL = Vue.prototype.$baseURL
 
 Vue.component('NewsItem', NewsItem)
+Vue.component('LoadingIndicator', LoadingIndicator)
 
 /* eslint-disable no-new */
 new Vue({

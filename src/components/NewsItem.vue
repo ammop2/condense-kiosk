@@ -1,33 +1,44 @@
 <template>
   <div v-bind:id="'item-' + id" class="item" v-bind:class="{ active: id === selectedIndex}"
        v-bind:style="style">
-    <span class="language-code">{{content.language}}</span>
-    <h1>{{content.title}}</h1>
-    <span class="language-code">{{content.intro}}</span>
+    <div class="content-wrapper" v-if="item">
+      <div v-for="(content, index) in item.contents">
+        <h1 class="title">{{content.title}}</h1>
+        <span class="intro">{{content.intro}}</span>
+        <span v-html="content.body"></span>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
   export default {
-    props: ['item', 'id', 'selectedIndex'],
+    props: ['itemId', 'id', 'selectedIndex'],
     name: 'item',
-    computed: {
-      style () {
-        console.log(this.$token)
-        if (this.item && this.item.hasBannerImage) {
-          return {
-            backgroundColor: '#000',
-            backgroundImage: `url(${this.$baseURL}/news/${this.item.id}/images/banner/16x9?access_token=${this.$token})`
-          }
-        } else {
-          return {
-            backgroundColor: '#532'
-          }
+    data () {
+      return {
+        item: null,
+        style: {
+          backgroundColor: '#532'
         }
-      },
-      content () {
-        let languageCodes = Object.keys(this.item.contents)
-        return this.item.contents[languageCodes[0]]
+      }
+    },
+    created () {
+      this.loadContents()
+    },
+    methods: {
+      loadContents () {
+        this.axios.get(`/news/${this.itemId}`)
+          .then((response) => {
+            this.item = response.data
+            if (this.item.hasBannerImage) {
+              this.style = {
+                backgroundColor: '#000',
+                backgroundImage: `url(${this.$baseURL}/news/${this.item.id}/images/banner/16x9?access_token=${this.$token})`
+              }
+            }
+            this.$emit('bodyloaded', this.id)
+          })
       }
     }
   }
@@ -42,28 +53,40 @@
     top: 0;
     left: 100%;
     z-index: 10;
-    padding:  8em 1em 0;
     background-color: #120103;
     background-position: center center;
     background-size: cover;
-    transition: left 0s .75s;
+    transition: left 0s 3s;
   }
   h1 {
-    opacity: 0;
-    transform: translateY(100%);
-    transition: transform .5s .5s, opacity .5s;
+    margin: 0;
   }
   [id^="item"].active {
     left: 0;
     z-index: 100;
-    transition: left .65s ease-out;
+    transition: left 3s ease-out;
   }
-  [id^="item"].active h1 {
+  .content-wrapper {
+    opacity: 0;
+    color: black;
+    transform: translateY(100%);
+    transition: transform .5s .5s, opacity .5s;
+  }
+  [id^="item"].active .content-wrapper {
     opacity: 1;
     transform: translateY(0);
-    transition: all .5s .5s;
+    transition: all 1s .5s;
+    transition-delay: 1.1s;
   }
-  .language-code {
-    color: #abc;
+  .content-wrapper {
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 2em;
+    background: rgba(255,255,255,0.9);
+    padding: 1em;
+  }
+  .intro {
+    font-style: italic;
   }
 </style>

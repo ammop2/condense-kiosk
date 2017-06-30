@@ -1,7 +1,7 @@
 <template>
   <div class="news-wrapper">
-    <h1>test</h1>
-    <news-item v-for="(item, index) in news" v-bind:item="item" v-bind:id="index" v-bind:selected-index="selectedIndex"></news-item>
+    <news-item v-for="(item, index) in news" v-bind:item-id="item.id" v-bind:id="index" :key="index" v-bind:selected-index="selectedIndex" v-on:bodyloaded="ready"></news-item>
+    <loading-indicator v-show="selectedIndex === -1"></loading-indicator>
   </div>
 </template>
 
@@ -10,7 +10,7 @@
     name: 'list',
     data () {
       return {
-        selectedIndex: 0,
+        selectedIndex: -1,
         news: []
       }
     },
@@ -19,13 +19,19 @@
     },
     methods: {
       load () {
-        this.axios.get('/news')
+        this.axios.get(`/news?channels=${this.$channels}`)
           .then((response) => {
             this.news = response.data.items
-            setInterval(() => {
-              this.selectedIndex = this.news.length <= this.selectedIndex ? 0 : this.selectedIndex += 1
-            }, 4000)
           })
+      },
+      ready (id) {
+        if (id === 0) {
+          setTimeout(() => {
+            setInterval(() => {
+              this.selectedIndex = this.selectedIndex + 1 === this.news.length ? 0 : this.selectedIndex += 1
+            }, 8000)
+          }, 200)
+        }
       }
     }
   }

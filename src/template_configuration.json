@@ -1,4 +1,5 @@
 {
   "token": "token",
-  "baseURL": "base_url"
+  "baseURL": "base_url",
+  "channels": ""
 }
