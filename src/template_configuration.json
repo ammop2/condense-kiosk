@@ -1,5 +1,6 @@
 {
   "token": "token",
   "baseURL": "base_url",
-  "channels": ""
+  "channels": "",
+  "activeTemplate": "slider | simple"
 }

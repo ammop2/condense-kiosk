@@ -1,6 +1,10 @@
 <template>
   <div class="news-wrapper">
-    <news-item v-for="(item, index) in news" v-bind:item-id="item.id" v-bind:id="index" :key="index" v-bind:selected-index="selectedIndex" v-on:bodyloaded="ready"></news-item>
+    <div v-for="(item, index) in news" :key="index">
+      <news-item-simple v-bind:item="item" v-bind:id="index" :key="index" v-bind:selected-index="selectedIndex" v-if="$activeTemplate === 'simple'"></news-item-simple>
+      <news-item-slider v-bind:item="item" v-bind:id="index" :key="index" v-bind:selected-index="selectedIndex" v-if="$activeTemplate === 'slider'"></news-item-slider>
+    </div>
+
     <loading-indicator v-show="selectedIndex === -1"></loading-indicator>
   </div>
 </template>
@@ -22,16 +26,13 @@
         this.axios.get(`/news?channels=${this.$channels}`)
           .then((response) => {
             this.news = response.data.items
+            this.selectedIndex = 0
+            setTimeout(() => {
+              setInterval(() => {
+                this.selectedIndex = this.selectedIndex + 1 === this.news.length ? 0 : this.selectedIndex += 1
+              }, 8000)
+            }, 200)
           })
-      },
-      ready (id) {
-        if (id === 0) {
-          setTimeout(() => {
-            setInterval(() => {
-              this.selectedIndex = this.selectedIndex + 1 === this.news.length ? 0 : this.selectedIndex += 1
-            }, 8000)
-          }, 200)
-        }
       }
     }
   }
