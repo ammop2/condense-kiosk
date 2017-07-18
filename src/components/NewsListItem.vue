@@ -2,12 +2,12 @@
   <div v-bind:style="styles.wrapper" class="wrapper news-list-item" v-bind:class="selected === index ? 'active' : ''">
     <h2 class="title">{{content.title}}</h2>
     <div>
-      <span v-for="(con, index) in item.contents" :key="index">
-        {{index}} &bigstar;
-      </span>
-      <span v-for="(channel, index) in item.channels" :key="index">
-        {{channel.name}} &bigstar;
-      </span>
+      <md-chip v-for="(con, index) in item.contents" v-model="index" :key="index">
+        {{index}}
+      </md-chip>
+      <md-chip v-for="(channel, index) in item.channels" :key="index">
+        {{channel.name}}
+      </md-chip>
     </div>
   </div>
 </template>
