@@ -33,8 +33,15 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
   body {
     overflow: hidden;
+    #app {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
   }
 </style>

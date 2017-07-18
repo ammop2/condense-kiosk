@@ -4,7 +4,6 @@
     </md-card-media>
     <md-card-header>
       <div class="md-title">
-        <md-progress :md-progress="progress"></md-progress>
         {{content.title}}
       </div>
       <div class="md-subhead">{{content.intro}}</div>
@@ -14,7 +13,7 @@
 
 <script>
   export default {
-    props: ['item', 'progress'],
+    props: ['item'],
     data () {
       return {
         style: {},
@@ -36,6 +35,13 @@
 <style scoped lang="scss">
   .news-detail {
     width: 100%;
+    max-width: 100%;
+
+    .md-subhead,md-title {
+      overflow: hidden;
+      max-width: 100%;
+    }
+
     .bg-image {
       background-color: #2c3e50;
       background-image: url('./../assets/no-background-image.jpg');

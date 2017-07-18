@@ -1,13 +1,11 @@
 <template>
   <div>
-    <md-layout>
-      <md-layout md-flex="20" style="background-color: #323232">
+    <md-layout class="news">
+      <md-layout md-flex="50">
+        <news-detail v-if="news && news.length" v-for="(item, index) in news" :key="index" v-bind:item="item" v-show="selected === index"></news-detail>
       </md-layout>
-      <md-layout md-flex-offset="5" md-flex="50">
-        <news-detail v-if="news && news.length" :item="item" :progress="progress"></news-detail>
-      </md-layout>
-      <md-layout md-flex="20" md-flex-offset="5">
-        <news-list v-if="news && news.length" v-bind:news="news"></news-list>
+      <md-layout md-flex="50">
+        <news-list v-if="news && news.length" v-bind:news="news" v-bind:selected="selected"></news-list>
       </md-layout>
     </md-layout>
   </div>
@@ -19,7 +17,6 @@
     data () {
       return {
         news: [],
-        item: {},
         progress: 0,
         selected: 0
       }
@@ -31,21 +28,31 @@
       load () {
         this.axios.get(`/news?channels=${this.$channels}`)
           .then((response) => {
-            this.news = response.data.items
-            this.item = this.news[1]
-            this.news = this.news.slice(0, 10)
+            this.news = response.data.items.slice(0, 9)
+            this.item = this.news[this.selected]
             setInterval(() => {
-              this.progress += 5
-              if (this.progress > 100) {
-                this.progress = 0
-                this.selected += 1
-              }
-            }, 100)
+              this.selected = this.selected + 1 >= this.news.length ? 0 : this.selected + 1
+              this.item = this.news[this.selected]
+            }, 20000)
           })
       }
     }
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  .news {
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    > div:first-child {
+      padding-right: 4px;
+    }
+    > div:last-child {
+      padding-left: 4px;
+    }
+  }
 </style>

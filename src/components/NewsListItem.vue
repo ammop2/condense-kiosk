@@ -1,10 +1,15 @@
 <template>
-    <md-card class="news-list-item">
-        <md-card-header v-bind:class="selected === index ? 'active' : ''">
-            <div class="md-title">{{content.title}}</div>
-            <div class="md-subhead">{{content.intro}}</div>
-        </md-card-header>
-    </md-card>
+  <div v-bind:style="styles.wrapper" class="wrapper news-list-item" v-bind:class="selected === index ? 'active' : ''">
+    <h2 class="title">{{content.title}}</h2>
+    <div>
+      <span v-for="(con, index) in item.contents" :key="index">
+        {{index}} &bigstar;
+      </span>
+      <span v-for="(channel, index) in item.channels" :key="index">
+        {{channel.name}} &bigstar;
+      </span>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -12,7 +17,12 @@
     props: ['item', 'selected', 'index'],
     data () {
       return {
-        content: {}
+        content: {},
+        styles: {
+          wrapper: {
+            height: '10%'
+          }
+        }
       }
     },
     created () {
@@ -22,12 +32,26 @@
 </script>
 
 <style scoped lang="scss">
+
+  .news-list-item:first-child {
+    border-top: 0px solid black;
+  }
+
   .news-list-item {
-    padding: 5px 0;
-    .active {
-      border-left-color: #2c3e50;
-      border-left-style: solid;
-      border-left-width: 2px;
+
+    &.active {
+      background-color: lightgray;
+    }
+
+    margin: 9px 0;
+    padding: 0 9px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-top: 1px solid black;
+
+    .title {
+      overflow: hidden;
     }
   }
 </style>

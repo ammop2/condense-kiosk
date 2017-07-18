@@ -1,23 +1,12 @@
 <template>
-  <div class="news-list">
-    <news-list-item v-for="(item, index) in news" :key="index" v-bind:item="item" v-bind:index="index" v-bind:selected="0"></news-list-item>
-  </div>
+  <md-card class="news-list">
+    <news-list-item v-for="(item, index) in news" :key="index" v-bind:item="item" v-bind:index="index" v-bind:selected="selected"></news-list-item>
+  </md-card>
 </template>
 
 <script>
   export default {
-    props: ['news'],
-    data () {
-      return {
-        selectedIndex: -1,
-        items: []
-      }
-    },
-    created () {
-      setInterval(() => {
-
-      }, 200)
-    }
+    props: ['news', 'selected']
   }
 </script>
 
@@ -27,5 +16,6 @@
     width: 100%;
     overflow:hidden;
     position:relative;
+    height: 100%;
   }
 </style>

@@ -7,17 +7,16 @@ import App from './App'
 import router from './router'
 import NewsList from './components/NewsList.vue'
 import NewsListItem from './components/NewsListItem.vue'
-import LoadingIndicator from './components/LoadingIndicator.vue'
 import NewsDetail from './components/NewsDetail.vue'
 import '../node_modules/vue-material/dist/vue-material.css'
 import VueAxios from 'vue-axios'
 import configuration from './configuration.json'
+import VueCarousel from 'vue-carousel'
 
+Vue.use(VueCarousel)
 Vue.use(VueMaterial)
 Vue.use(VueAxios, axios)
 Vue.config.productionTip = false
-
-Vue.component('LoadingIndicator', LoadingIndicator)
 Vue.component('NewsList', NewsList)
 Vue.component('NewsListItem', NewsListItem)
 Vue.component('NewsDetail', NewsDetail)
