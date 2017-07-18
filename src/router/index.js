@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import News from '@/components/News'
+import News from '@/pages/News'
 
 Vue.use(Router)
 

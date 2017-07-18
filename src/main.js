@@ -1,21 +1,26 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
+import VueMaterial from 'vue-material'
 import axios from 'axios'
 import App from './App'
 import router from './router'
-import NewsItemSimple from './components/NewsItemSimple.vue'
-import NewsItemSlider from './components/NewsItemSlider.vue'
+import NewsList from './components/NewsList.vue'
+import NewsListItem from './components/NewsListItem.vue'
 import LoadingIndicator from './components/LoadingIndicator.vue'
+import NewsDetail from './components/NewsDetail.vue'
+import '../node_modules/vue-material/dist/vue-material.css'
 import VueAxios from 'vue-axios'
 import configuration from './configuration.json'
 
+Vue.use(VueMaterial)
 Vue.use(VueAxios, axios)
 Vue.config.productionTip = false
 
 Vue.component('LoadingIndicator', LoadingIndicator)
-Vue.component('NewsItemSimple', NewsItemSimple)
-Vue.component('NewsItemSlider', NewsItemSlider)
+Vue.component('NewsList', NewsList)
+Vue.component('NewsListItem', NewsListItem)
+Vue.component('NewsDetail', NewsDetail)
 
 Vue.prototype.$baseURL = configuration.baseURL
 Vue.prototype.$token = configuration.token

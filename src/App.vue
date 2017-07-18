@@ -34,18 +34,7 @@ export default {
 </script>
 
 <style>
-  svg path {
-    fill: #000;
+  body {
+    overflow: hidden;
   }
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  text-align: center;
-  color: #2c3e50;
-}
-html, body, #app {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
 </style>
